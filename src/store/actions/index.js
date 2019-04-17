@@ -1,1 +1,1 @@
-export { addBook, deleteBook } from './bookActions';
+export { addBook, deleteBook, getAllBooks } from './bookActions';

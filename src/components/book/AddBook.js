@@ -5,6 +5,10 @@ import { addBook } from '../../store/actions/index';
 
 class AddBook extends Component {
 
+	static navigationOptions = {
+    title: 'Add Book',
+  };
+
 	state = {
 		name: '',
 		code: '',
@@ -14,7 +18,7 @@ class AddBook extends Component {
 	render() {
 		return (
 			<View style={styles.addBookForm}>
-				<Text style={styles.header}>Add Book</Text>
+				<Text style={styles.header}>New Book</Text>
 				<TextInput
 					style={styles.textInput}
 					placeholder='Book Name'
@@ -63,7 +67,7 @@ export default connect(null, mapDispatchToProps)(AddBook);
 const styles = StyleSheet.create({
 	addBookForm: {
 		alignSelf: 'stretch',
-		padding: 30
+		padding: 30,
 	},
 	header: {
 		fontSize: 24,

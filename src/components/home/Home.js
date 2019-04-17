@@ -6,13 +6,40 @@ class Home extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<TouchableOpacity>
+				<TouchableOpacity style={styles.button}>
+					<Icon size={25} name='add' color='grey' />
 					<Text
 						style={styles.welcome}
 						onPress={() => this.props.navigation.navigate('AddBook')}
 					>
-						<Icon size={30} name='add' color='red' />
-						Add Book
+						Add New Book
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button}>
+					<Icon size={25} name='add' color='grey' />
+					<Text
+						style={styles.welcome}
+						onPress={() => this.props.navigation.navigate('BookList')}
+					>
+						View Books
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button}>
+					<Icon size={25} name='add' color='grey' />
+					<Text
+						style={styles.welcome}
+						onPress={() => this.props.navigation.navigate('AddBook')}
+					>
+						Add New Member
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button}>
+					<Icon size={25} name='add' color='grey' />
+					<Text
+						style={styles.welcome}
+						onPress={() => this.props.navigation.navigate('AddBook')}
+					>
+						View Members
 					</Text>
 				</TouchableOpacity>
 			</View>
@@ -28,15 +55,20 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#F5FCFF',
+		paddingTop: 100,
+		paddingBottom: 100
 	},
 	welcome: {
 		fontSize: 20,
 		textAlign: 'center',
-		margin: 10,
+		padding: 10
 	},
-	instructions: {
-		textAlign: 'center',
-		color: '#333333',
-		marginBottom: 5,
-	},
+	button: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'flex-start',
+		width: 300,
+		paddingLeft: 8
+	}
 });

@@ -7,12 +7,19 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import Home from './src/components/home/Home';
 import AddBook from './src/components/book/AddBook';
+import BookList from './src/components/book/BookList';
+import { connect } from 'react-redux';
+import { getAllBooks } from './src/store/actions/index';
 
-export default class App extends Component {
+class App extends Component {
+
+  componentDidMount = () => {
+    this.props.bookDb.find({}, (err, allBooks) => this.props.getAllBooks(allBooks));
+  }
+
   render() {
     return <AppContainer />;
   }
@@ -20,9 +27,24 @@ export default class App extends Component {
 
 const AppNavigator = createStackNavigator(
   {
-    Home: Home,
-    AddBook: AddBook
+    Home,
+    AddBook,
+    BookList,
   }
 )
 
 const AppContainer = createAppContainer(AppNavigator);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getAllBooks: allBooks => dispatch(getAllBooks(allBooks))
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    bookDb: state.books.bookDb
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
