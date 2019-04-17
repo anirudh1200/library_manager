@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, TextInput, Picker } from 'react-native';
+import { connect } from 'react-redux';
+import { addBook } from '../../store/actions/index';
 
 class AddBook extends Component {
 
 	state = {
 		name: '',
 		code: '',
-		language: 'english'
+		language: 'English'
 	}
 
 	render() {
@@ -33,15 +35,15 @@ class AddBook extends Component {
 					onValueChange={(itemValue) =>
 						this.setState({ language: itemValue })
 					}>
-					<Picker.Item label="English" value="english" />
-					<Picker.Item label="Hindi" value="hindi" />
-					<Picker.Item label="Marathi" value="marathi" />
-					<Picker.Item label="Kannada" value="kannada" />
-					<Picker.Item label="Gujarati" value="gujarati" />
+					<Picker.Item label="English" value="English" />
+					<Picker.Item label="Hindi" value="Hindi" />
+					<Picker.Item label="Marathi" value="Marathi" />
+					<Picker.Item label="Kannada" value="Kannada" />
+					<Picker.Item label="Gujarati" value="Gujarati" />
 				</Picker>
 				<TouchableOpacity
 					style={styles.button}
-					onPress={() => console.log(this.state)}
+					onPress={() => this.props.onAddBook(this.state)}
 				>
 					<Text style={styles.btnText}>Add</Text>
 				</TouchableOpacity>
@@ -50,7 +52,13 @@ class AddBook extends Component {
 	}
 }
 
-export default AddBook;
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddBook: book => dispatch(addBook(book)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(AddBook);
 
 const styles = StyleSheet.create({
 	addBookForm: {
