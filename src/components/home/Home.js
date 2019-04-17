@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 class Home extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Text style={styles.welcome}>Welcome to React Native!</Text>
+				<TouchableOpacity>
+					<Text
+						style={styles.welcome}
+						onPress={() => this.props.navigation.navigate('AddBook')}
+					>
+						<Icon size={30} name='add' color='red' />
+						Add Book
+					</Text>
+				</TouchableOpacity>
 			</View>
 		);
 	}

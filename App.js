@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import Home from './src/components/home/Home';
+import AddBook from './src/components/book/AddBook';
 
 export default class App extends Component {
   render() {
@@ -19,7 +20,8 @@ export default class App extends Component {
 
 const AppNavigator = createStackNavigator(
   {
-    Home: Home
+    Home: Home,
+    AddBook: AddBook
   }
 )
 
