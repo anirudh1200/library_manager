@@ -1,8 +1,10 @@
 import { createStore, combineReducers, compose } from 'redux';
 import BooksReducer from './reducers/BooksReducer';
+import MemberReducer from './reducers/MemberReducer';
 
 const rootReducer = combineReducers({
-	books: BooksReducer
+	books: BooksReducer,
+	members: MemberReducer
 });
 
 let composeEnhancers = compose;
