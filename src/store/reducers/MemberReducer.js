@@ -4,7 +4,7 @@ let Datastore = require('react-native-local-mongodb');
 let memberDb = new Datastore({ filename: 'MemberStorage', autoload: true });
 
 const initialState = {
-	memberss: [],
+	members: [],
 	memberDb
 }
 

@@ -12,7 +12,8 @@ class AddMember extends Component {
 	state = {
 		name: '',
 		number: '',
-		date: ''
+		date: '',
+		booksIssued: []
 	}
 
 	componentDidMount = () => {

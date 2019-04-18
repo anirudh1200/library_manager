@@ -7,10 +7,10 @@ export const addBook = newBook => {
 	};
 }
 
-export const deleteBook = book => {
+export const deleteBook = bookName => {
 	return {
 		type: DELETE_BOOK,
-		book
+		bookName
 	}
 }
 

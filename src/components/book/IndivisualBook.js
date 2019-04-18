@@ -1,29 +1,47 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { TouchableOpacity, Alert } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { connect } from 'react-redux';
+import { deleteBook } from '../../store/actions/index';
 
 const IndivisualBook = props => {
-	console.log(props);
+	const { book } = props;
 	return (
-		<View style={styles.listItem}>
-			<Text>{props.bookName}</Text>
-		</View>
+		<ListItem
+			bottomDivider={true}
+			title={book.name}
+			subtitle={book.language}
+			rightIcon={
+				<TouchableOpacity
+					onPress={() => {
+						Alert.alert(
+							'Delete Book?',
+							book.name,
+							[
+								{
+									text: 'Cancel',
+									onPress: () => { },
+									style: 'cancel',
+								},
+								{ text: 'OK', onPress: () => props.deleteBook(book.name) },
+							],
+							{ cancelable: false },
+						);
+					}}
+				>
+					<Icon name='delete' color='grey' size={18} />
+				</TouchableOpacity>
+			}
+		>
+		</ListItem>
 	)
 };
 
-export default IndivisualBook;
+const mapDispatchToProps = dispatch => {
+	return {
+		deleteBook: bookName => dispatch(deleteBook(bookName))
+	}
+}
 
-const styles = StyleSheet.create({
-	listItem: {
-		width: '100%',
-		padding: 10,
-		backgroundColor: '#ccc',
-		margin: 5,
-		flexDirection: 'row',
-		alignItems: 'center'
-	},
-	placeImage: {
-		marginRight: 8,
-		height: 30,
-		width: 30
-	},
-});
+export default connect(null, mapDispatchToProps)(IndivisualBook);

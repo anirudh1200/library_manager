@@ -10,17 +10,16 @@ class MemberList extends Component {
 	};
 
 	render() {
-		console.log(this.props.members);
 		return (
 			<FlatList
 				data={this.props.members}
 				keyExtractor={(item, index) => index.toString()}
-				renderItem={({item}) => {
-					console.log(item)
-					return (<IndivisualMember
-						memberName={item.name}
-					/>)
-				}}
+				renderItem={({ item }) => (
+					<IndivisualMember
+						navigation={this.props.navigation}
+						member={item}
+					/>
+				)}
 			>
 			</FlatList>
 		)

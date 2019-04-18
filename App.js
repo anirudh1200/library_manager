@@ -16,12 +16,34 @@ import { getAllBooks } from './src/store/actions/index';
 import { getAllMembers } from './src/store/actions/index';
 import AddMember from './src/components/member/AddMember';
 import MemberList from './src/components/member/MemberList';
+import MemberDetails from './src/components/member/MemberDetails';
 
 class App extends Component {
 
   componentDidMount = () => {
-    this.props.bookDb.find({}, (err, allBooks) => this.props.getAllBooks(allBooks));
-    this.props.memberDb.find({}, (err, allMembers) => this.props.getAllMembers(allMembers));
+    this.props.bookDb.find({}, (err, allBooks) => {
+      let sortedAllBooks = allBooks.sort(this.dynamicSort('name'));
+      this.props.getAllBooks(sortedAllBooks);
+    });
+    this.props.memberDb.find({}, (err, allMembers) => {
+      let sortedAllMembers = allMembers.sort(this.dynamicSort('name'));
+      this.props.getAllMembers(sortedAllMembers);
+    });
+  }
+
+  dynamicSort = property => {
+    let sortOrder = 1;
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    return function (a, b) {
+      if (sortOrder == -1) {
+        return b[property].localeCompare(a[property]);
+      } else {
+        return a[property].localeCompare(b[property]);
+      }
+    }
   }
 
   render() {
@@ -36,6 +58,7 @@ const AppNavigator = createStackNavigator(
     BookList,
     AddMember,
     MemberList,
+    MemberDetails
   }
 )
 

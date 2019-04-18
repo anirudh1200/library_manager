@@ -17,11 +17,11 @@ const reducer = (state = initialState, action) => {
 				books: state.books.concat(action.book),
 			}
 		case DELETE_BOOK:
-			bookDb.remove({name: action.book.name});
+			bookDb.remove({name: action.bookName});
 			return {
 				...state,
 				books: state.books.filter(book => {
-					return book.name !== action.book.name
+					return book.name !== action.bookName
 				})
 			}
 		case GET_ALL_BOOKS:
