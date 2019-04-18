@@ -37,7 +37,7 @@ class Home extends Component {
 					<Icon size={25} name='add' color='grey' />
 					<Text
 						style={styles.welcome}
-						onPress={() => this.props.navigation.navigate('AddBook')}
+						onPress={() => this.props.navigation.navigate('MemberList')}
 					>
 						View Members
 					</Text>

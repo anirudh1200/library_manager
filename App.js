@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { getAllBooks } from './src/store/actions/index';
 import { getAllMembers } from './src/store/actions/index';
 import AddMember from './src/components/member/AddMember';
+import MemberList from './src/components/member/MemberList';
 
 class App extends Component {
 
@@ -34,6 +35,7 @@ const AppNavigator = createStackNavigator(
     AddBook,
     BookList,
     AddMember,
+    MemberList,
   }
 )
 
