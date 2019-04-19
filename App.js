@@ -59,6 +59,13 @@ const AppNavigator = createStackNavigator(
     AddMember,
     MemberList,
     MemberDetails
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#03a9f4',
+      },
+    }
   }
 )
 
