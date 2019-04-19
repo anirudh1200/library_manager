@@ -1,3 +1,3 @@
-export { addBook, deleteBook, getAllBooks } from './bookActions';
+export { addBook, deleteBook, getAllBooks, addMemberToBook } from './bookActions';
 
-export { addMember, deleteMember, getAllMembers } from './memberActions';
+export { addMember, deleteMember, getAllMembers, addBookToMember } from './memberActions';

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, FlatList } from 'react-native';
 import { SearchBar, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { addBookToMember, addMemberToBook } from '../../store/actions/index';
 
 class MemberDetails extends Component {
 
@@ -15,8 +16,7 @@ class MemberDetails extends Component {
 		...this.props.navigation.getParam('member', 'notfound'),
 		search: '',
 		modalVisible: false,
-		allBooks: this.props.allBooks,
-		selectedBook: ''
+		allBooks: this.props.allBooks
 	};
 
 	updateSearch = search => {
@@ -24,12 +24,22 @@ class MemberDetails extends Component {
 	};
 
 	render() {
-		const { allBooks, search } = this.state;
-		console.log(allBooks);
+		let { allBooks, search, booksIssued } = this.state;
+		console.log(this.state);
 		const books = allBooks.filter(e => (e.name.indexOf(search) !== -1));
-		console.log("Books");
-		console.log(books);
-		console.log(search);
+		const issuedBookList = booksIssued.length === 1 ? (null) : booksIssued = booksIssued.shift();
+		return (
+			<FlatList
+				data={booksIssued}
+				keyExtractor={(item, index) => index.toString()}
+				renderItem={({ item }) => (
+					<ListItem
+						title={item.name}
+						subtitle={item.date}
+					/>
+				)}
+			/>
+		)
 		return (
 			<View style={styles.body}>
 				<Modal
@@ -57,7 +67,12 @@ class MemberDetails extends Component {
 								keyExtractor={(item, index) => index.toString()}
 								renderItem={({ item }) => (
 									<TouchableOpacity
-										onPress={() => this.setState({ selectedBook: item.name })}
+										onPress={() => {
+											this.props.addMemberToBook(booksIssued[booksIssued.length - 1].name, 'none');
+											this.props.addBookToMember(item.name, this.state.name);
+											this.props.addMemberToBook(item.name, this.state.name);
+											this.setState({ modalVisible: false });
+										}}
 									>
 										<ListItem
 											title={item.name}
@@ -69,12 +84,12 @@ class MemberDetails extends Component {
 						</View>
 					</View>
 				</Modal>
-				<View style={styles.body}>
+				<View style={styles.innerBody}>
 					<View style={styles.top}>
 						<Text style={styles.header}>Mobile Number: {this.state.number}</Text>
 					</View>
 					<View style={styles.middle}>
-						<Text>Anirudh</Text>
+						{issuedBookList}
 					</View>
 					<View style={styles.bottom}>
 						<TouchableOpacity
@@ -100,7 +115,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-
+		addBookToMember: (bookName, memberName) => dispatch(addBookToMember(bookName, memberName)),
+		addMemberToBook: (bookName, memberName) => dispatch(addMemberToBook(bookName, memberName))
 	}
 }
 
@@ -112,6 +128,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		padding: 15,
+		alignItems: 'stretch',
+	},
+	innerBody: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'center',
 		alignItems: 'stretch',
 	},
 	top: {
@@ -146,9 +168,9 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white'
 	},
 	middle: {
-		flex: 10
+		flex: 20
 	},
 	bottom: {
-		flex: 1,
+		flex: 2,
 	}
 });

@@ -1,4 +1,5 @@
-import { ADD_MEMBER, DELETE_MEMBER, GET_ALL_MEMBERS } from '../actions/actionTypes';
+import { ADD_MEMBER, DELETE_MEMBER, GET_ALL_MEMBERS, ADD_BOOK_TO_MEMBER } from '../actions/actionTypes';
+import { getDate } from '../../functions/date';
 
 let Datastore = require('react-native-local-mongodb');
 let memberDb = new Datastore({ filename: 'MemberStorage', autoload: true });
@@ -28,6 +29,18 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				members: action.allMembers
+			}
+		case ADD_BOOK_TO_MEMBER:
+			memberDb.update({ name: action.memberName }, { $push: { booksIssued: { name: action.bookName, date: getDate() } } });
+			const newMemberList = state.members.map(member => {
+				if (member.name === action.memberName) {
+					member.booksIssued.push({ name: action.bookName, date: getDate() });
+				}
+				return member;
+			})
+			return {
+				...state,
+				members: newMemberList
 			}
 		default:
 			return state;

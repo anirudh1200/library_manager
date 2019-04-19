@@ -1,4 +1,4 @@
-import { ADD_BOOK, DELETE_BOOK, GET_ALL_BOOKS } from '../actions/actionTypes';
+import { ADD_BOOK, DELETE_BOOK, GET_ALL_BOOKS, ADD_MEMBER_TO_BOOK } from '../actions/actionTypes';
 
 let Datastore = require('react-native-local-mongodb');
 let bookDb = new Datastore({ filename: 'BookStorage', autoload: true });
@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
 				books: state.books.concat(action.book),
 			}
 		case DELETE_BOOK:
-			bookDb.remove({name: action.bookName});
+			bookDb.remove({ name: action.bookName });
 			return {
 				...state,
 				books: state.books.filter(book => {
@@ -28,6 +28,18 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				books: action.allBooks
+			}
+		case ADD_MEMBER_TO_BOOK:
+			bookDb.update({ name: action.bookName }, { $set: { owner: action.memberName } })
+			const newBookList = state.books.map(book => {
+				if (book.name === action.bookName) {
+					book.owner = action.memberName;
+				}
+				return book;
+			})
+			return {
+				...state,
+				books: newBookList
 			}
 		default:
 			return state;

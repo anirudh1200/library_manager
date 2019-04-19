@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, TextInput, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import { addMember } from '../../store/actions/index';
+import { getDate } from '../../functions/date';
 
 class AddMember extends Component {
 
@@ -12,17 +13,8 @@ class AddMember extends Component {
 	state = {
 		name: '',
 		number: '',
-		date: '',
-		booksIssued: []
-	}
-
-	componentDidMount = () => {
-		let today = new Date();
-		let dd = String(today.getDate()).padStart(2, '0');
-		let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-		let yyyy = today.getFullYear();
-		let date = mm + '/' + dd + '/' + yyyy;
-		this.setState({ date });
+		date: getDate(),
+		booksIssued: [{ name: 'none', date: 'none' }]
 	}
 
 	render() {
@@ -45,7 +37,10 @@ class AddMember extends Component {
 				/>
 				<TouchableOpacity
 					style={styles.button}
-					onPress={() => this.props.onAddMember(this.state)}
+					onPress={() => {
+						this.props.onAddMember(this.state)
+						this.props.navigation.navigate('Home');
+					}}
 				>
 					<Text style={styles.btnText}>Add</Text>
 				</TouchableOpacity>

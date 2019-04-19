@@ -12,6 +12,7 @@ const IndivisualBook = props => {
 			bottomDivider={true}
 			title={book.name}
 			subtitle={book.language}
+			rightSubtitle={book.owner !== 'none' ? (book.owner) : ('')}
 			rightIcon={
 				<TouchableOpacity
 					onPress={() => {

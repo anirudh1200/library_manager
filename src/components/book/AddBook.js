@@ -6,13 +6,14 @@ import { addBook } from '../../store/actions/index';
 class AddBook extends Component {
 
 	static navigationOptions = {
-    title: 'Add Book',
-  };
+		title: 'Add Book',
+	};
 
 	state = {
 		name: '',
 		code: '',
-		language: 'English'
+		language: 'English',
+		owner: 'none'
 	}
 
 	render() {
@@ -47,7 +48,10 @@ class AddBook extends Component {
 				</Picker>
 				<TouchableOpacity
 					style={styles.button}
-					onPress={() => this.props.onAddBook(this.state)}
+					onPress={() => {
+						this.props.onAddBook(this.state);
+						this.props.navigation.navigate('Home');
+					}}
 				>
 					<Text style={styles.btnText}>Add</Text>
 				</TouchableOpacity>
@@ -57,9 +61,9 @@ class AddBook extends Component {
 }
 
 const mapDispatchToProps = dispatch => {
-  return {
-    onAddBook: book => dispatch(addBook(book)),
-  }
+	return {
+		onAddBook: book => dispatch(addBook(book)),
+	}
 }
 
 export default connect(null, mapDispatchToProps)(AddBook);

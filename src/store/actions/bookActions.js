@@ -1,4 +1,4 @@
-import { ADD_BOOK, DELETE_BOOK, GET_ALL_BOOKS } from './actionTypes';
+import { ADD_BOOK, DELETE_BOOK, GET_ALL_BOOKS, ADD_MEMBER_TO_BOOK } from './actionTypes';
 
 export const addBook = newBook => {
 	return {
@@ -15,8 +15,16 @@ export const deleteBook = bookName => {
 }
 
 export const getAllBooks = allBooks => {
-	return{
+	return {
 		type: GET_ALL_BOOKS,
 		allBooks
+	}
+}
+
+export const addMemberToBook = (bookName, memberName) => {
+	return {
+		type: ADD_MEMBER_TO_BOOK,
+		bookName,
+		memberName
 	}
 }
