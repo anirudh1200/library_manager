@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, Picker, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import IndivisualMember from './IndivisualMember';
+import { SearchBar } from 'react-native-elements';
 
 class MemberList extends Component {
 
@@ -9,19 +10,40 @@ class MemberList extends Component {
 		title: 'Member List',
 	};
 
+	state = {
+		search: '',
+	}
+
+	updateSearch = search => {
+		this.setState({ search });
+	};
+
 	render() {
+		const { members } = this.props;
+		const displayMembers = members.filter(e => (e.name.indexOf(this.state.search) !== -1));
 		return (
-			<FlatList
-				data={this.props.members}
-				keyExtractor={(item, index) => index.toString()}
-				renderItem={({ item }) => (
-					<IndivisualMember
-						navigation={this.props.navigation}
-						member={item}
-					/>
-				)}
-			>
-			</FlatList>
+			<View>
+				<SearchBar
+					lightTheme
+					placeholder="Search"
+					onChangeText={this.updateSearch}
+					value={this.state.search}
+					containerStyle={styles.container}
+					inputContainerStyle={styles.inputContainerStyle}
+					autoCorrect={false}
+				/>
+				<FlatList
+					data={displayMembers}
+					keyExtractor={(item, index) => index.toString()}
+					renderItem={({ item }) => (
+						<IndivisualMember
+							navigation={this.props.navigation}
+							member={item}
+						/>
+					)}
+				>
+				</FlatList>
+			</View>
 		)
 	}
 }
@@ -35,5 +57,14 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(MemberList);
 
 const styles = StyleSheet.create({
-
+	inputContainerStyle: {
+		backgroundColor: 'white'
+	},
+	container: {
+		margin: 1,
+		padding: 1,
+		backgroundColor: 'white',
+		borderWidth: 0,
+		height: 50
+	},
 })

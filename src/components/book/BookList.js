@@ -39,8 +39,9 @@ class BookList extends Component {
 		const allBooks = this.props.books;
 		const books = allBooks.filter(e => (this.state[e.language]));
 		const languages = ['English', 'Hindi', 'Marathi', 'Kannada', 'Gujarati'];
-		const checkboxes = languages.map(language => (
+		const checkboxes = languages.map((language, index) => (
 			<CheckBox
+				key={index}
 				iconRight
 				title={language}
 				checked={this.state[language]}

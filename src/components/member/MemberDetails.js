@@ -16,7 +16,8 @@ class MemberDetails extends Component {
 		...this.props.navigation.getParam('member', 'notfound'),
 		search: '',
 		modalVisible: false,
-		allBooks: this.props.allBooks
+		allBooks: this.props.allBooks,
+		refresh: false
 	};
 
 	updateSearch = search => {
@@ -24,22 +25,8 @@ class MemberDetails extends Component {
 	};
 
 	render() {
-		let { allBooks, search, booksIssued } = this.state;
-		console.log(this.state);
+		const { allBooks, search, booksIssued } = this.state;
 		const books = allBooks.filter(e => (e.name.indexOf(search) !== -1));
-		const issuedBookList = booksIssued.length === 1 ? (null) : booksIssued = booksIssued.shift();
-		return (
-			<FlatList
-				data={booksIssued}
-				keyExtractor={(item, index) => index.toString()}
-				renderItem={({ item }) => (
-					<ListItem
-						title={item.name}
-						subtitle={item.date}
-					/>
-				)}
-			/>
-		)
 		return (
 			<View style={styles.body}>
 				<Modal
@@ -72,6 +59,7 @@ class MemberDetails extends Component {
 											this.props.addBookToMember(item.name, this.state.name);
 											this.props.addMemberToBook(item.name, this.state.name);
 											this.setState({ modalVisible: false });
+											setTimeout(() => this.setState({ refresh: !this.state.refresh }), 50);
 										}}
 									>
 										<ListItem
@@ -89,7 +77,17 @@ class MemberDetails extends Component {
 						<Text style={styles.header}>Mobile Number: {this.state.number}</Text>
 					</View>
 					<View style={styles.middle}>
-						{issuedBookList}
+						<FlatList
+							data={booksIssued.slice(1)}
+							keyExtractor={(item, index) => index.toString()}
+							extraData={this.state.refresh}
+							renderItem={({ item }) => (
+								<ListItem
+									title={item.name}
+									subtitle={item.date}
+								/>
+							)}
+						/>
 					</View>
 					<View style={styles.bottom}>
 						<TouchableOpacity
