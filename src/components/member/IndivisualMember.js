@@ -9,7 +9,8 @@ const IndivisualMember = props => {
 			onPress={() => {
 				props.navigation.navigate('MemberDetails', {
 					memberName: member.name,
-					member: member
+					member: member,
+					lastBook: member.booksIssued[member.booksIssued.length - 1].name
 				});
 			}}
 		>

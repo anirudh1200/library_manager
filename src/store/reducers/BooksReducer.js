@@ -30,6 +30,7 @@ const reducer = (state = initialState, action) => {
 				books: action.allBooks
 			}
 		case ADD_MEMBER_TO_BOOK:
+			console.log('Done');
 			bookDb.update({ name: action.bookName }, { $set: { owner: action.memberName } })
 			const newBookList = state.books.map(book => {
 				if (book.name === action.bookName) {

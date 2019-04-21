@@ -1,14 +1,45 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, FlatList, Alert } from 'react-native';
 import { SearchBar, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { addBookToMember, addMemberToBook } from '../../store/actions/index';
-
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { deleteMember } from '../../store/actions/index';
 class MemberDetails extends Component {
 
 	static navigationOptions = ({ navigation }) => {
 		return {
 			title: navigation.getParam('memberName', 'Name'),
+			headerRight: (
+				<TouchableOpacity
+					style={{ paddingRight: 10 }}
+					onPress={() => {
+						Alert.alert(
+							'Remove Member?',
+							navigation.getParam('memberName', 'Name'),
+							[
+								{
+									text: 'Cancel',
+									onPress: () => { },
+									style: 'cancel',
+								},
+								{
+									text: 'Remove', onPress: () => {
+										const deleteMember = navigation.getParam('deleteMember');
+										const addMemberToBook = navigation.getParam('addMemberToBook');
+										addMemberToBook(navigation.getParam('lastBook'), 'none');
+										deleteMember(navigation.getParam('member'));
+										navigation.navigate('MemberList');
+									}
+								},
+							],
+							{ cancelable: false },
+						);
+					}}
+				>
+					<Icon size={30} name='remove' color='black' />
+				</TouchableOpacity>
+			),
 		};
 	};
 
@@ -17,8 +48,13 @@ class MemberDetails extends Component {
 		search: '',
 		modalVisible: false,
 		allBooks: this.props.allBooks,
-		refresh: false
+		refresh: false,
 	};
+
+	componentDidMount = () => {
+		this.props.navigation.setParams({ deleteMember: this.props.deleteMember });
+		this.props.navigation.setParams({ addMemberToBook: this.props.addMemberToBook });
+	}
 
 	updateSearch = search => {
 		this.setState({ search });
@@ -114,7 +150,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		addBookToMember: (bookName, memberName) => dispatch(addBookToMember(bookName, memberName)),
-		addMemberToBook: (bookName, memberName) => dispatch(addMemberToBook(bookName, memberName))
+		addMemberToBook: (bookName, memberName) => dispatch(addMemberToBook(bookName, memberName)),
+		deleteMember: member => dispatch(deleteMember(member))
 	}
 }
 
