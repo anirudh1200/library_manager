@@ -3,7 +3,7 @@ import { View, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native
 import { connect } from 'react-redux';
 import IndivisualBook from './IndivisualBook';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Overlay, CheckBox } from 'react-native-elements';
+import { Overlay, ListItem } from 'react-native-elements';
 
 class BookList extends Component {
 
@@ -38,17 +38,24 @@ class BookList extends Component {
 	render() {
 		const allBooks = this.props.books;
 		const books = allBooks.filter(e => (this.state[e.language]));
-		const languages = ['English', 'Hindi', 'Marathi', 'Kannada', 'Gujarati'];
-		const checkboxes = languages.map((language, index) => (
-			<CheckBox
+		const languages = ['English', 'Hindi', 'Marathi', 'Kannada', 'Gujarati', 'All'];
+		const filter = languages.map((language, index) => (
+			<ListItem
 				key={index}
-				iconRight
 				title={language}
-				checked={this.state[language]}
-				checkedIcon={<Icon size={25} name='done' color='green' />}
-				uncheckedIcon={<Icon size={25} name='done' color='red' />}
 				onPress={() => {
-					this.setState({ [language]: !this.state[language] });
+					languages.map((lan, index) => {
+						if (language === 'All') {
+							languages.map(e => this.setState({ [e]: true }));
+						} else {
+							if (lan === language) {
+								this.setState({ [lan]: true });
+							} else {
+								this.setState({ [lan]: false })
+							}
+						}
+					});
+					this.props.navigation.setParams({ overlay: false });
 				}}
 			/>
 		))
@@ -62,7 +69,7 @@ class BookList extends Component {
 				>
 					<View>
 						<Text style={styles.header}>Languages:</Text>
-						{checkboxes}
+						{filter}
 						<TouchableOpacity
 							style={styles.button}
 							onPress={() => this.props.navigation.setParams({ overlay: false })}
@@ -97,7 +104,7 @@ export default connect(mapStateToProps)(BookList);
 const styles = StyleSheet.create({
 	overlay: {
 		alignSelf: 'center',
-		padding: 30,
+		padding: 20,
 	},
 	header: {
 		fontSize: 24,
@@ -112,7 +119,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		padding: 10,
 		backgroundColor: '#03a9f4',
-		marginTop: 30,
 		margin: 10
 	},
 	btnText: {

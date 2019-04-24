@@ -13,10 +13,25 @@ class AddBook extends Component {
 		name: '',
 		code: '',
 		language: 'English',
-		owner: 'none'
+		owner: 'none',
+		genre: ''
 	}
 
 	render() {
+		let genrePicker = null;
+		if (this.state.language == 'Hindi') {
+			genrePicker = (
+				<Picker
+					selectedValue={this.state.genre}
+					style={{ height: 50, width: 300 }}
+					onValueChange={(itemValue) =>
+						this.setState({ genre: itemValue })
+					}>
+					<Picker.Item label="Fiction" value="Fiction" />
+					<Picker.Item label="Non-Fiction" value="Non-Fiction" />
+				</Picker>
+			)
+		}
 		return (
 			<View style={styles.addBookForm}>
 				<Text style={styles.header}>New Book</Text>
@@ -46,6 +61,7 @@ class AddBook extends Component {
 					<Picker.Item label="Kannada" value="Kannada" />
 					<Picker.Item label="Gujarati" value="Gujarati" />
 				</Picker>
+				{genrePicker}
 				<TouchableOpacity
 					style={styles.button}
 					onPress={() => {

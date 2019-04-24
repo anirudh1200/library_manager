@@ -7,11 +7,17 @@ import { deleteBook } from '../../store/actions/index';
 
 const IndivisualBook = props => {
 	const { book } = props;
+	let subtitle = null;
+	if(book.language === 'Hindi'){
+		subtitle = book.language + ' - ' +book.genre;
+	} else {
+		subtitle = book.language
+	}
 	return (
 		<ListItem
 			bottomDivider={true}
 			title={book.name}
-			subtitle={book.language}
+			subtitle={subtitle}
 			rightSubtitle={book.owner !== 'none' ? (book.owner) : ('')}
 			rightIcon={
 				<TouchableOpacity
@@ -34,8 +40,7 @@ const IndivisualBook = props => {
 					<Icon name='delete' color='grey' size={18} />
 				</TouchableOpacity>
 			}
-		>
-		</ListItem>
+		/>
 	)
 };
 

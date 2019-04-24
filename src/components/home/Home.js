@@ -10,7 +10,8 @@ class Home extends Component {
 		headerTitleStyle: {
 			textAlign: "center",
 			flex: 1,
-			color: 'white'
+			color: 'white',
+			fontSize: 30,
 		},
 	};
 
