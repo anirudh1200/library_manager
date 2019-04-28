@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { addMember } from '../../store/actions/index';
-import { getDate } from '../../functions/date';
+import { getNextDate, displayDate } from '../../functions/date';
 
 class AddMember extends Component {
 
@@ -13,8 +13,9 @@ class AddMember extends Component {
 	state = {
 		name: '',
 		number: '',
-		date: getDate(),
-		booksIssued: [{ name: 'none', date: 'none' }]
+		date: displayDate(),
+		booksIssued: [{ name: 'none', date: 'none' }],
+		nextIssue:	new Date(getNextDate()),
 	}
 
 	render() {

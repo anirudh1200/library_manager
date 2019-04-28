@@ -27,8 +27,12 @@ class AddBook extends Component {
 					onValueChange={(itemValue) =>
 						this.setState({ genre: itemValue })
 					}>
-					<Picker.Item label="Fiction" value="Fiction" />
-					<Picker.Item label="Non-Fiction" value="Non-Fiction" />
+					<Picker.Item label="Sparc" value="Sparc" />
+					<Picker.Item label="Yog" value="Yog" />
+					<Picker.Item label="Jeevancharitra" value="Jeevancharitra" />
+					<Picker.Item label="Swaman" value="Swaman" />
+					<Picker.Item label="Avyakt" value="Avyakt" />
+					<Picker.Item label="Anya.." value="Anya" />
 				</Picker>
 			)
 		}
