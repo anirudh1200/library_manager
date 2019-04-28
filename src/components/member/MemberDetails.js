@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, FlatList, Alert } from 'react-native';
 import { SearchBar, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { addBookToMember, addMemberToBook, extendDate } from '../../store/actions/index';
+import { addBookToMember, addMemberToBook, extendDate, membershipRenew } from '../../store/actions/index';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { deleteMember } from '../../store/actions/index';
 import { nextDue } from '../../functions/date';
@@ -63,16 +63,29 @@ class MemberDetails extends Component {
 	};
 
 	render() {
-		const { allBooks, search, booksIssued, nextIssue, name } = this.state;
+		const { allBooks, search, booksIssued, nextIssue, name, paid } = this.state;
 		const books = allBooks.filter(e => (e.name.indexOf(search) !== -1));
 		let dismissButton = null;
-		if (nextDue(nextIssue)) {
+		if (!paid) {
 			dismissButton = (
 				<View style={styles.bottom}>
 					<TouchableOpacity
 						style={styles.button2}
 						onPress={() => {
-							extendDate(name);
+							this.props.membershipRenew(name);
+						}}
+					>
+						<Text style={styles.btnText}>Paid</Text>
+					</TouchableOpacity>
+				</View>
+			)
+		} else if (nextDue(nextIssue)) {
+			dismissButton = (
+				<View style={styles.bottom}>
+					<TouchableOpacity
+						style={styles.button2}
+						onPress={() => {
+							this.props.extendDate(name);
 						}}
 					>
 						<Text style={styles.btnText}>Extend date</Text>
@@ -170,7 +183,9 @@ const mapDispatchToProps = dispatch => {
 		addBookToMember: (bookName, memberName) => dispatch(addBookToMember(bookName, memberName)),
 		addMemberToBook: (bookName, memberName) => dispatch(addMemberToBook(bookName, memberName)),
 		deleteMember: member => dispatch(deleteMember(member)),
-		extendDate: memberName => dispatch(extendDate(memberName))
+		extendDate: memberName => dispatch(extendDate(memberName)),
+		membershipRenew: memberName => dispatch(membershipRenew(memberName))
+
 	}
 }
 

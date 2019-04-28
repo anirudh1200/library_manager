@@ -16,6 +16,7 @@ class AddMember extends Component {
 		date: displayDate(),
 		booksIssued: [{ name: 'none', date: 'none' }],
 		nextIssue:	new Date(getNextDate()),
+		paid: true,
 	}
 
 	render() {

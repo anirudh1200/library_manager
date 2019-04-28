@@ -1,4 +1,4 @@
-import { ADD_MEMBER, DELETE_MEMBER, GET_ALL_MEMBERS, ADD_BOOK_TO_MEMBER, EXTEND_DATE } from '../actions/actionTypes';
+import { ADD_MEMBER, DELETE_MEMBER, GET_ALL_MEMBERS, ADD_BOOK_TO_MEMBER, EXTEND_DATE, MEMBERSHIP_EXPIRY, MEMBERSHIP_RENEW } from '../actions/actionTypes';
 import { displayDate, getNextDate } from '../../functions/date';
 
 let Datastore = require('react-native-local-mongodb');
@@ -56,6 +56,28 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				members: newMemberList1
+			}
+		case MEMBERSHIP_EXPIRY:
+			memberDb.update({}, { $set: { paid: false } }, { multi: true });
+			const newMemberList2 = state.members.map(member => {
+				member.paid = false;
+				return member;
+			});
+			return {
+				...state,
+				members: newMemberList2
+			}
+		case MEMBERSHIP_RENEW:
+			memberDb.update({ name: action.memberName }, { $set: { paid: true } });
+			const newMemberList3 = state.members.map(member => {
+				if (member.name === action.memberName) {
+					member.paid = true;
+				}
+				return member;
+			});
+			return {
+				...state,
+				members: newMemberList3
 			}
 		default:
 			return state;

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, StatusBar, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SplashScreen from 'react-native-splash-screen';
+import { connect } from 'react-redux';
+import { membershipExpiry } from '../../store/actions/index';
 
 class Home extends Component {
 
@@ -61,12 +63,45 @@ class Home extends Component {
 						View Members
 					</Text>
 				</TouchableOpacity>
+				<TouchableOpacity style={styles.button}>
+					<Icon size={25} name='remove' color='grey' />
+					<Text
+						style={styles.welcome}
+						onPress={() => {
+							Alert.alert(
+								'Expire Membership?',
+								'Are you sure you want to expire all the current memberships (usually in August)?',
+								[
+									{
+										text: 'Cancel',
+										onPress: () => { },
+										style: 'cancel',
+									},
+									{
+										text: 'Expire', onPress: () => {
+											this.props.membershipExpiry();
+										}
+									},
+								],
+								{ cancelable: false },
+							);
+						}}
+					>
+						Renew Memberships
+					</Text>
+				</TouchableOpacity>
 			</View>
 		);
 	}
 }
 
-export default Home;
+const mapDispatchToProps = dispatch => {
+	return{
+		membershipExpiry: () => dispatch(membershipExpiry())
+	}
+}
+
+export default connect(null, mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
 	container: {
